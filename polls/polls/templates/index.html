@@ -1,7 +1,7 @@
 {% if questions %}
   <ul>
     {% for q in questions %}
-      <li><a href="/polls/{{q.id}}/">{{q.question_text}}</a></li>
+      <li><a href="{% url 'detail' q.id %}">{{q.question_text}}</a></li>
     {% endfor %}
   </ul>
   {% else %}
