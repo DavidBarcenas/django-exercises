@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+  {% if questions %}  
+    <ul class="list-questions">
+      {% for q in questions %}
+        <li>
+          <a href="{% url 'detail' q.id %}">
+            {{q.question_text}}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No polls are available.</p>
+  {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+  <img src="{% static 'images/home.svg' %}" alt="My image">
+  <p class="sidebar-paragraph">Gracias por tomarse el tiempo para completar esta encuesta! Sus resultados ayudarán a servirle mejor.</p>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+  <form action="{%url 'vote' question.id%}" method='post' class="form-detail">
+    {% csrf_token %}
+
+    <legend class="title">
+      <h1>{{question}}</h1>
+    </legend>
+
+    {% if error_message %}
+      <p class="error-message">
+        <strong>{{error_message}}</strong>
+      </p>
+    {% endif %}
+
+    {% for choice in question.choice_set.all %}
+      <div class="form-control">
+        <input 
+          type="radio" 
+          name="choice" 
+          id="choice{{forloop.counter}}" 
+          value="{{choice.id}}"
+        />
+        <label for="choice{{ forloop.counter }}">{{ choice }}</label>
+      </div>
+    {% endfor %}
+    <input type="submit" class="btn-submit" value="Siguiente">
+  </form>
+{% endblock %}
+
+
+{% block sidebar %}
+  <img src="{% static 'images/detail.svg' %}" alt="My image">
+  <p class="sidebar-paragraph">Puede dejarnos comentarios o sugerencias que ayuden a mejorar nuestro servicio al cliente.</p>
+{% endblock %}

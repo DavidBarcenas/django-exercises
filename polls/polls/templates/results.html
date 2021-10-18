@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+  <h1 class="title">{{ question }}</h1>
+
+  <ul class="results">
+    {% for choice in question.choice_set.all %}
+      <li>
+        <p>{{ choice.choice_text }}</p> 
+        <span>{{ choice.votes }} </span>
+        vote{{ choice.votes|pluralize }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
+
+{% block sidebar %}
+  <img src="{% static 'images/results.svg' %}" alt="My image">
+  <div class="total-votes">
+    <p class="sidebar-paragraph">¡Muchas gracias por participar en este estudio valioso!</p>
+  </div>
+{% endblock %}
