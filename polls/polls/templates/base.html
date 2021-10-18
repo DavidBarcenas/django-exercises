@@ -14,7 +14,12 @@
 <body>
   <div class="container">
     <main class="main">
-      {% block main %}{% endblock %}
+      <header class="main-header">
+        <h1>Polls App</h1>
+      </header>
+      <div class="main-content">
+        {% block main %}{% endblock %}
+      </div>
     </main>
     <aside class="sidebar">
       {% block sidebar %}{% endblock %}

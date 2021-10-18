@@ -18,6 +18,12 @@ img {
   max-width: 100%;
 }
 
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
 .container {
   display: flex;
   width: 100vw;
@@ -26,9 +32,40 @@ img {
 
 .main {
   width: 70%;
+  padding: 2rem 4rem;
+}
+
+.main-header {
+  margin-bottom: 4rem;
+}
+
+.main-header h1 {
+  font-weight: 700;
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 3px solid #e3f2fd;
+}
+
+.main-content {
+  width: 70%;
+  margin: auto;
 }
 
 .sidebar {
-  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #e3f2fd;
+  padding: 0 1rem;
+  width: 30%;
+}
+
+.list-questions li {
+  padding: 1rem 0;
+  margin-bottom: 1.5rem;
+}
+
+.list-questions li  a {
+  color: #0d47a1;
+  font-size: 1.3rem;
 }

@@ -1,23 +1,22 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block container %}
+{% block main %}
   {% if questions %}  
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-7 list-group">
-          {% for q in questions %}
-            <a class="list-group-item list-group-item-action link-primary" href="{% url 'detail' q.id %}">
-              {{q.question_text}}
-            </a>
-          {% endfor %}
-        </div>
-        <div class="col-md-5 sidebar">
-          <img src="{% static 'images/home.svg' %}" alt="My image">
-        </div>
-      </div>
-    </div>
+    <ul class="list-questions">
+      {% for q in questions %}
+        <li>
+          <a href="{% url 'detail' q.id %}">
+            {{q.question_text}}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
     {% else %}
     <p>No polls are available.</p>
   {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+  <img src="{% static 'images/home.svg' %}" alt="My image">
 {% endblock %}
