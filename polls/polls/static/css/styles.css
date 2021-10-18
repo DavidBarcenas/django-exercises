@@ -16,6 +16,7 @@ a {
 img {
   display: block;
   max-width: 100%;
+  margin: 0 auto;
 }
 
 ul {
@@ -46,6 +47,10 @@ ul {
   border-bottom: 3px solid #e3f2fd;
 }
 
+.main-header a {
+  color: #000;
+}
+
 .main-content {
   width: 70%;
   margin: auto;
@@ -53,7 +58,8 @@ ul {
 
 .sidebar {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
   justify-content: center;
   background: #e3f2fd;
   padding: 0 1rem;
@@ -68,4 +74,102 @@ ul {
 .list-questions li  a {
   color: #0d47a1;
   font-size: 1.3rem;
+}
+
+.form-control {
+  padding: 1rem;
+}
+
+.form-control input,
+.form-control label {
+  vertical-align: middle;
+}
+
+.form-control input {
+  width: 20px;
+  height: 20px;
+  margin-right: 1rem;
+}
+
+.form-control label {
+  font-size: 1.35rem;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-submit {
+  display: block;
+  background: #2196f3;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: .75rem 1.5rem;
+  border: none;
+  outline: none;
+  margin-left: auto;
+  margin-top: 4rem;
+}
+
+.error-message {
+  background: #ffcdd2;
+  color: #b71c1c;
+  padding: 1rem;
+}
+
+.title {
+  line-height: 3rem;
+  color: #0d47a1;
+  margin-bottom: 3rem;
+}
+
+.results {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  height: 250px;
+  padding: 0 1rem;
+}
+
+.results li:nth-child(odd) {
+  background: #e3f2fd;
+}
+
+.results li p {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.results li span {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.total-votes {
+  margin-top: 2rem;
+}
+
+.total {
+  display: block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.sidebar-paragraph {
+  text-align: center;
+  width: 85%;
+  margin: auto;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  line-height: 1.5;
 }
