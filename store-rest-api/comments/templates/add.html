@@ -7,6 +7,10 @@
   <title>Forms Handling - Add</title>
 </head>
 <body>
-  {{ form.text }}
+  <form action="{% url 'comments:add' %}" method="post">
+    {% csrf_token %}
+    {{ form.text }}
+    <button type="Submit">Save</button>
+  </form>
 </body>
 </html>
