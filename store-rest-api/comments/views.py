@@ -1,3 +1,9 @@
 from django.shortcuts import render
 
-# Create your views here.
+from comments.models import Comment
+
+
+def index(req):
+    comments = Comment.objects.all()
+
+    return render(req, 'index.html', {'comments': comments})
