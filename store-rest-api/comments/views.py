@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
-from comments.models import Comment
+from comments.models import Comment, Contact
 from comments.forms import CommentForm, ContactForm, DivErrorList
 
 
@@ -43,6 +43,20 @@ def update(req, pk):
 def contact(req):
     if req.method == 'POST':
         form = ContactForm(req.POST, req.FILES, error_class=DivErrorList)
+
+        if form.is_valid():
+            contact = Contact()
+
+            if 'document' in req.FILES['document']:
+                contact.document = req.FILES['document']
+
+            contact.name = form.cleaned_data['name']
+            contact.lastname = form.cleaned_data['lastname']
+            contact.email = form.cleaned_data['email']
+            contact.phone = form.cleaned_data['phone']
+            contact.dirthdate = form.cleaned_data['dirthdate']
+
+            contact.save()
     else:
         form = ContactForm()
 

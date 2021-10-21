@@ -3,7 +3,7 @@ from django.forms import ModelForm, Textarea
 from django.core.validators import EmailValidator, MinLengthValidator
 from django.forms.utils import ErrorList
 
-from comments.models import Comment
+from comments.models import Comment, TypeContact
 
 
 class CommentForm(ModelForm):
@@ -16,6 +16,12 @@ class CommentForm(ModelForm):
 
 
 class ContactForm(forms.Form):
+    CHOICES = (
+        (1, 'Bussiness'),
+        (2, 'Personal'),
+        (3, 'Other'),
+    )
+
     name = forms.CharField(validators=[
         MinLengthValidator(2, message='Name Error %(limit_value)d')
     ])
@@ -27,6 +33,7 @@ class ContactForm(forms.Form):
     )
     email = forms.EmailField(validators=[EmailValidator()])
     birth_date = forms.DateField()
+    contact = forms.ChoiceField(queryset=TypeContact.objects.all())
     document = forms.FileField(required=False)
     terms = forms.BooleanField()
 
