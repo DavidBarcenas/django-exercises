@@ -14,7 +14,7 @@
         <span class="flow-text">Contact Form</span> 
       </div>
 
-      <form method="post" autocomplete="off">
+      <form method="post" autocomplete="off" enctype="multipart/form-data">
         {% csrf_token %}
 
         {% if form.errors %}

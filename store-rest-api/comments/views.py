@@ -42,7 +42,7 @@ def update(req, pk):
 
 def contact(req):
     if req.method == 'POST':
-        form = ContactForm(req.POST, error_class=DivErrorList)
+        form = ContactForm(req.POST, req.FILES, error_class=DivErrorList)
     else:
         form = ContactForm()
 

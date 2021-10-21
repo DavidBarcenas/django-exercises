@@ -27,6 +27,8 @@ class ContactForm(forms.Form):
     )
     email = forms.EmailField(validators=[EmailValidator()])
     birth_date = forms.DateField()
+    document = forms.FileField(required=False)
+    terms = forms.BooleanField()
 
 
 class DivErrorList(ErrorList):
