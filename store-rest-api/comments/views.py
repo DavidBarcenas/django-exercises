@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 
 from comments.models import Comment
-from comments.forms import CommentForm, ContactForm
+from comments.forms import CommentForm, ContactForm, DivErrorList
 
 
 def index(req):
@@ -42,7 +42,7 @@ def update(req, pk):
 
 def contact(req):
     if req.method == 'POST':
-        form = ContactForm(req.POST)
+        form = ContactForm(req.POST, error_class=DivErrorList)
     else:
         form = ContactForm()
 
