@@ -1,9 +1,17 @@
 from django.db import models
 
+from products.models import Product
+
 
 class Comment(models.Model):
     text = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(
+        Product,
+        related_name='comments',
+        on_delete=models.CASCADE,
+        null=True
+    )
 
     def __str__(self) -> str:
         return 'Comment #{}'.format(self.id)

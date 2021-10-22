@@ -1,11 +1,13 @@
 from rest_framework import serializers
 
+from comments.models import Comment
+
 from .models import Product, Category, Type
 
 
-class ProductSerializer(serializers.ModelSerializer):
+class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Comment
         fields = '__all__'
 
 
@@ -18,4 +20,14 @@ class CategorySerializer(serializers.ModelSerializer):
 class TypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Type
+        fields = '__all__'
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True,)
+    type = TypeSerializer(read_only=True,)
+    comments = CommentSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Product
         fields = '__all__'
