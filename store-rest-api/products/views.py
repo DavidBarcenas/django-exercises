@@ -2,8 +2,10 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from comments.models import Comment
+
 from .models import Category, Product, Type
-from .serializers import CategorySerializer, ProductSerializer, TypeSerializer
+from .serializers import CategorySerializer, CommentSerializer, ProductSerializer, TypeSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -33,3 +35,8 @@ class TypeViewSet(viewsets.ModelViewSet):
         serializer = ProductSerializer(queryset, many=True)
 
         return Response(serializer.data)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer

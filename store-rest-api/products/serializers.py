@@ -24,8 +24,8 @@ class TypeSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()
-    type = serializers.StringRelatedField()
+    category = CategorySerializer(read_only=True,)
+    type = TypeSerializer(read_only=True,)
     comments = CommentSerializer(read_only=True, many=True)
 
     class Meta:
