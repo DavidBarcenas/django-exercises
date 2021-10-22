@@ -13,7 +13,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
@@ -25,7 +25,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-class TypeViewSet(viewsets.ModelViewSet):
+class TypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()
     serializer_class = TypeSerializer
 
