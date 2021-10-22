@@ -49,6 +49,16 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get'])
+    def url(self, request):
+        queryset = get_object_or_404(
+            Category,
+            url_clean=request.query_params['url_clean']
+        )
+        serializer = CategorySerializer(queryset)
+
+        return Response(serializer.data)
+
 
 class TypeViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()
@@ -56,8 +66,8 @@ class TypeViewSet(viewsets.ReadOnlyModelViewSet):
 
     @action(detail=True, methods=['get'])
     def products(self, request, pk=None):
-        queryset = Product.objects.filter(type_id=pk)
-        serializer = ProductSerializer(queryset, many=True)
+        queryset = Type.objects.filter(type_id=pk)
+        serializer = TypeSerializer(queryset, many=True)
 
         return Response(serializer.data)
 
