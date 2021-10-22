@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -16,6 +17,16 @@ class ProductViewSet(viewsets.ModelViewSet):
     def all(self, request):
         queryset = Product.objects.all()
         serializer = ProductSerializer(queryset, many=True)
+
+        return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def url(self, request):
+        queryset = get_object_or_404(
+            Product,
+            url_clean=request.query_params['url_clean']
+        )
+        serializer = ProductSerializer(queryset)
 
         return Response(serializer.data)
 
