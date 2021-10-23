@@ -1,0 +1,15 @@
+body, .main-wrap .row {
+  width: 100vw;
+  height: 100vh;
+}
+
+.sidebar {
+  background-color: #222;
+  color: #fff;
+}
+
+.sidebar h2 {
+  width: 100%;
+  font-size: 3rem;
+  font-weight: 400;
+}

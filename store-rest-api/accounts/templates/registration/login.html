@@ -1,12 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
-</head>
-<body>
-  <h1>Login</h1>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+  <h2 class="mb-5">Login to the app.</h2>
+
+  {% if form.errors %}
+  <div class="alert alert-danger" role="alert">
+    <strong>Your username and password didn't match. Please try again.</strong>
+  </div>
+  {% endif %}
+
+  {% comment %} {% if user.is_authenticated %}
+    <p>My Profile!!!</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %} {% endcomment %}
+
+
+  <form method="post" action="{% url 'login' %}" class="mb-3">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="user-id" class="form-label">{{ form.username.label_tag }}</label>
+      <input type="text" name="username" class="form-control" id="user-id">
+    </div>
+    
+    <div class="mb-3">
+      <label for="password-id" class="form-label">{{ form.password.label_tag }}</label>
+      <input type="password" class="form-control" name="password" id="password-id">
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success">Login</button>
+      <input type="hidden" name="next" value="{{ next }}">
+    </div>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p class="text-center">
+    <a href="{% url 'password_reset' %}">Did you forget your password?</a>
+  </p>
+
+{% endblock %}
