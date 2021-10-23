@@ -5,4 +5,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(('products.urls', 'products'), namespace='products')),
     path('comments/', include(('comments.urls', 'comments'), namespace='comments')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
