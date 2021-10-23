@@ -6,11 +6,7 @@
 {% block content %}
   <h2 class="mb-5">Login to the app.</h2>
 
-  {% include "partials/alert.html" with 
-    msg="Your username and password didn't match. Please try again." 
-    type="danger" 
-    show=form.errors 
-  %}
+  {% include "partials/alert.html" with msg="Your username and password didn't match. Please try again." type="danger" show=form.errors %}
 
   <form method="post" action="{% url 'login' %}" class="mb-3">
     {% csrf_token %}
