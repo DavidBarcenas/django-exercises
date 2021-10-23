@@ -6,18 +6,11 @@
 {% block content %}
   <h2 class="mb-5">Login to the app.</h2>
 
-  {% if form.errors %}
-  <div class="alert alert-danger" role="alert">
-    <strong>Your username and password didn't match. Please try again.</strong>
-  </div>
-  {% endif %}
-
-  {% comment %} {% if user.is_authenticated %}
-    <p>My Profile!!!</p>
-  {% else %}
-    <p>Please login to see this page.</p>
-  {% endif %} {% endcomment %}
-
+  {% include "partials/alert.html" with 
+    msg="Your username and password didn't match. Please try again." 
+    type="danger" 
+    show=form.errors 
+  %}
 
   <form method="post" action="{% url 'login' %}" class="mb-3">
     {% csrf_token %}
