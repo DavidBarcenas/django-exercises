@@ -3,10 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def user_data(request):
-    if request.user.is_authenticated:
-        return render(request, 'user_data.html')
-    else:
-        return redirect('/accounts/login/')
+    return render(request, 'user_data.html')
 
 
 @login_required
