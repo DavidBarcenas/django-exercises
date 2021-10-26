@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
+
+from accounts.forms.custom_user_creation_form import CustomUserCreationForm
 
 
 def user_data(req):
@@ -15,10 +16,10 @@ def profile(req):
 
 
 def register(req):
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
 
     if req.method == 'POST':
-        form = UserCreationForm(data=req.POST)
+        form = CustomUserCreationForm(data=req.POST)
 
         if form.is_valid():
             user = form.save()
