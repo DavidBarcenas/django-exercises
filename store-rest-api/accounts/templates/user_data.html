@@ -6,17 +6,21 @@
 {% block content %}
   <h2 class="mb-5">User Data</h2>
 
-  <table>
+  <table class="table table-striped">
     <thead>
       <tr>
-        <th>User</th>
-        <th>Email</th>
+        <th scope="col">User</th>
+        <th scope="col">Email</th>
+        <th scope="col">Authenticated</th>
+        <th scope="col">Anonymous</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr scope="row">
         <td>{{user.username}}</td>
         <td>{{user.email}}</td>
+        <td>{{user.is_authenticated}}</td>
+        <td>{{user.is_anonymous}}</td>
       </tr>
     </tbody>
   </table>
