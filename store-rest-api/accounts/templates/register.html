@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+  <h2 class="mb-5">Register to the app.</h2>
+
+
+  <form method="post" action="{% url 'accounts:register' %}" class="mb-3">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="user-id" class="form-label">{{ form.username.label_tag }}</label>
+      <input type="text" name="username" class="form-control" id="user-id">
+      <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+    </div>
+    
+    <div class="mb-3">
+      <label for="password-id" class="form-label">{{ form.password1.label_tag }}</label>
+      <input type="password" class="form-control" name="password1" id="password-id">
+    </div>
+
+    <ul class="form-text">
+      <li>Your password can’t be too similar to your other personal information.</li>
+      <li>Your password must contain at least 8 characters.</li>
+      <li>Your password can’t be a commonly used password.</li>
+      <li>Your password can’t be entirely numeric.</li>
+    </ul>
+ 
+    <div class="mb-3">
+      <label for="password2-id" class="form-label">{{ form.password2.label_tag }}</label>
+      <input type="password" class="form-control" name="password2" id="password2-id">
+      <div class="form-text">Enter the same password as before, for verification.</div>
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success">Login</button>
+      <input type="hidden" name="next" value="{{ next }}">
+    </div>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p class="text-center">
+    <a href="{% url 'login' %}">Do you have an account?</a>
+  </p> 
+
+{% endblock %}
