@@ -11,13 +11,13 @@
     {% csrf_token %}
 
     <div class="mb-3">
-      <label for="user-id" class="form-label">{{ form.username.label_tag }}</label>
+      <label for="user-id" class="form-label">Username:</label>
       <input type="text" name="username" class="form-control" id="user-id">
       <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
     </div>
     
     <div class="mb-3">
-      <label for="password-id" class="form-label">{{ form.password1.label_tag }}</label>
+      <label for="password-id" class="form-label">Password:</label>
       <input type="password" class="form-control" name="password1" id="password-id">
     </div>
 
@@ -29,7 +29,7 @@
     </ul>
  
     <div class="mb-3">
-      <label for="password2-id" class="form-label">{{ form.password2.label_tag }}</label>
+      <label for="password2-id" class="form-label">Password confirmation:</label>
       <input type="password" class="form-control" name="password2" id="password2-id">
       <div class="form-text">Enter the same password as before, for verification.</div>
     </div>
