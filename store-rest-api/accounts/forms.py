@@ -2,7 +2,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django import forms
-from django.forms import fields
 
 from accounts.models import UserProfile
 
@@ -37,4 +36,10 @@ class CustomUserCreationForm(UserCreationForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('avatar',)
+        fields = ('avatar', 'user')
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+
+        self.fields['user'].widget = forms.HiddenInput()
+        self.fields['user'].required = False

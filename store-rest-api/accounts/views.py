@@ -13,6 +13,15 @@ def user_data(req):
 @login_required
 def profile(req):
     form = UserProfileForm()
+
+    if req.method == 'POST':
+        form = UserProfileForm(req.POST, req.FILES)
+
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = req.user
+            user_profile.save()
+
     return render(req, 'profile.html', {'form': form})
 
 
