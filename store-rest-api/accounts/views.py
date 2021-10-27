@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -20,10 +22,18 @@ def profile(req):
         try:
             user_profile = UserProfile.objects.get(user=req.user)
             form = UserProfileForm(req.POST, req.FILES, instance=user_profile)
+
+            current_path_avatar = os.path.join(
+                settings.MEDIA_ROOT,
+                user_profile.avatar.name
+            )
         except ObjectDoesNotExist:
             form = UserProfileForm(req.POST, req.FILES)
 
         if form.is_valid():
+            if current_path_avatar is not None and os.path.isfile(current_path_avatar):
+                os.remove(current_path_avatar)
+
             user_profile = form.save(commit=False)
             user_profile.user = req.user
             user_profile.save()
