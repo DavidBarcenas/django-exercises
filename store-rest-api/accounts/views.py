@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 
-from accounts.forms.custom_user_creation_form import CustomUserCreationForm
+from accounts.forms import CustomUserCreationForm
 
 
 def user_data(req):
