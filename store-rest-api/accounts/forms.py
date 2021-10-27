@@ -49,8 +49,8 @@ class UserProfileForm(forms.ModelForm):
         avatar = self.cleaned_data['avatar']
         width, height = get_image_dimensions(avatar)
 
-        max_width = 500
-        max_height = 500
+        max_width = 2000
+        max_height = 2000
 
         if width > max_width or height > max_height:
             raise forms.ValidationError(
@@ -61,7 +61,7 @@ class UserProfileForm(forms.ModelForm):
         if not(file == 'image' and type in ['jpeg', 'jpg', 'gif', 'png']):
             raise forms.ValidationError('This file is not supported.')
 
-        if len(avatar) > (30 * 1024):
+        if len(avatar) > (300 * 1024):
             raise forms.ValidationError('The image must not exceed 30kb.')
 
         return avatar
