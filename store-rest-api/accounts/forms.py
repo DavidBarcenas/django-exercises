@@ -2,6 +2,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django import forms
+from django.forms import fields
+
+from accounts.models import UserProfile
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -29,3 +32,9 @@ class CustomUserCreationForm(UserCreationForm):
             raise ValidationError('This email already exists!.')
 
         return email
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('avatar',)

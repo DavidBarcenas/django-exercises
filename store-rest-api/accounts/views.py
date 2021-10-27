@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 
-from accounts.forms import CustomUserCreationForm
+from accounts.forms import CustomUserCreationForm, UserProfileForm
 
 
 def user_data(req):
@@ -12,7 +12,8 @@ def user_data(req):
 
 @login_required
 def profile(req):
-    return render(req, 'profile.html')
+    form = UserProfileForm()
+    return render(req, 'profile.html', {'form': form})
 
 
 def register(req):
