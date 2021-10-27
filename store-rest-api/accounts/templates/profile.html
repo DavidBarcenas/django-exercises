@@ -6,7 +6,7 @@
   <div class="card">
     <div class="card-header">Profile</div>
     <div class="card-body">
-      <img src="{{ user.userprofile.avatar }}" alt="">
+      <img src="{{ MEDIA_URL }}{{ user.userprofile.avatar }}" alt="">
 
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
