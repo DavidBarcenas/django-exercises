@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.files.images import get_image_dimensions
 from django import forms
 
 from accounts.models import UserProfile
@@ -43,3 +44,24 @@ class UserProfileForm(forms.ModelForm):
 
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['user'].required = False
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+        width, height = get_image_dimensions(avatar)
+
+        max_width = 500
+        max_height = 500
+
+        if width > max_width or height > max_height:
+            raise forms.ValidationError(
+                'The image must not exceed %spx %spx' % (max_width, max_height))
+
+        file, type = avatar.content_type.split('/')
+
+        if not(file == 'image' and type in ['jpeg', 'jpg', 'gif', 'png']):
+            raise forms.ValidationError('This file is not supported.')
+
+        if len(avatar) > (30 * 1024):
+            raise forms.ValidationError('The image must not exceed 30kb.')
+
+        return avatar
