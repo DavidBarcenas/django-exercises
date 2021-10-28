@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+  <h2 class="mb-5">Login to the app.</h2>
+
+  {% include "partials/alert.html" with msg="Your username and password didn't match. Please try again." type="danger" show=form.errors %}
+
+  {% if next %}
+    <div class="alert alert-danger mb-4">
+      <span>If you want to access  <strong>{{next}}</strong>, need to authenticate!</span>
+    </div>
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}" class="mb-3">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="user-id" class="form-label">{{ form.username.label_tag }}</label>
+      <input type="text" name="username" class="form-control" id="user-id">
+    </div>
+    
+    <div class="mb-3">
+      <label for="password-id" class="form-label">{{ form.password.label_tag }}</label>
+      <input type="password" class="form-control" name="password" id="password-id">
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success">Login</button>
+      <input type="hidden" name="next" value="{{ next }}">
+    </div>
+  </form>
+
+  {# Assumes you setup the password_reset view in your URLconf #}
+  <p class="text-center">
+    <a href="{% url 'password_reset' %}">Did you forget your password?</a>
+  </p>
+ 
+  <p class="text-center">
+    <a href="{% url 'accounts:register' %}">You do haven't an account? Register</a>
+  </p>
+
+{% endblock %}
