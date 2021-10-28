@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forms Handling</title>
+</head>
+<body>
+  {% for c in comments_page %}
+    <p>{{ c.text }}</p>
+  {% endfor %}
+  
+  <div class="pagination">
+    <span class="step-links">
+        {% if comments_page.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ comments_page.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ comments_page.number }} of {{ comments_page.paginator.num_pages }}.
+        </span>
+
+        {% if comments_page.has_next %}
+            <a href="?page={{ comments_page.next_page_number }}">next</a>
+            <a href="?page={{ comments_page.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+</body>
+</html>

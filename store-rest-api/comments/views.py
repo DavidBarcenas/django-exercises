@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.template import loader
+from django.core.paginator import Paginator
 
 from comments.models import Comment, Contact
 from comments.forms import CommentForm, ContactForm, DivErrorList
@@ -8,7 +9,12 @@ from comments.forms import CommentForm, ContactForm, DivErrorList
 
 def index(req):
     comments = Comment.objects.all()
-    return render(req, 'index.html', {'comments': comments})
+    p = Paginator(comments, 5)
+
+    page_number = req.GET.get('page')
+    comments_page = p.get_page(page_number)
+
+    return render(req, 'index_page.html', {'comments_page': comments_page})
 
 
 def add(req):
