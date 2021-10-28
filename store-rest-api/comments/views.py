@@ -1,4 +1,6 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.core.mail import send_mail
+from django.template import loader
 
 from comments.models import Comment, Contact
 from comments.forms import CommentForm, ContactForm, DivErrorList
@@ -14,7 +16,22 @@ def add(req):
         form = CommentForm(req.POST)
 
         if form.is_valid():
-            form.save()
+            comment = form.save()
+
+            html_message = loader.render_to_string(
+                'email/comment.html',
+                {'comment', comment}
+            )
+
+            send_mail(
+                "Comment #" + str(comment.id),
+                comment.text,
+                "davee@gmail.com",
+                ["juan@gmail.com"],
+                fail_silently=False,
+                html_message=html_message
+            )
+
             return redirect('comments:index')
     else:
         form = CommentForm()
