@@ -2,7 +2,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.template import loader
 from django.core.paginator import Paginator
-import logging
+from django.http import HttpResponse
+import csv
 
 from comments.models import Comment, Contact
 from comments.forms import CommentForm, ContactForm, DivErrorList
@@ -85,3 +86,19 @@ def contact(req):
         form = ContactForm()
 
     return render(req, 'contact.html', {'form': form})
+
+
+def export(req):
+    comments = Comment.objects.all()
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="comments.csv"'},
+    )
+
+    writer = csv.writer(response)
+
+    for c in comments:
+        writer.writerow([c.id, c.text])
+
+    return response
