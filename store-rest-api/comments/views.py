@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.core.mail import send_mail
 from django.template import loader
 from django.core.paginator import Paginator
+import logging
 
 from comments.models import Comment, Contact
 from comments.forms import CommentForm, ContactForm, DivErrorList
