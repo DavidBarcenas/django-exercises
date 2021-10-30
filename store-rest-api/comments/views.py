@@ -3,6 +3,7 @@ from django.core.mail import send_mail
 from django.template import loader
 from django.core.paginator import Paginator
 from django.http import HttpResponse
+from django.utils.translation import gettext as _
 import csv
 
 from comments.models import Comment, Contact
@@ -30,6 +31,8 @@ def add(req):
                 'email/comment.html',
                 {'comment', comment}
             )
+
+            req.session['comment_id'] = comment.id
 
             send_mail(
                 "Comment #" + str(comment.id),

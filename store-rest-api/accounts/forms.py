@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.files.images import get_image_dimensions
+from django.utils.translation import gettext as _
 from django import forms
 
 from accounts.models import UserProfile
@@ -11,7 +12,7 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(
         max_length=50,
         error_messages={
-            'invalid': 'Entered a valid email.'
+            'invalid': _('Entered a valid email.')
         }
     )
 
