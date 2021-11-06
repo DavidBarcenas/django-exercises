@@ -18,3 +18,5 @@ def index(req):
 class DetailView(generic.DetailView):
     model = Product
     template_name = 'store/detail.html'
+    slug_field = 'url_clean'
+    slug_url_kwarg = 'url_clean'

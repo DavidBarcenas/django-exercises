@@ -10,6 +10,7 @@
   {% for p in products %}
     {{ p }}
     <a href="{% url 'shop:detail' p.id %}">Go</a>
+    <a href="{% url 'shop:detail' p.url_clean %}">Go Slug</a>
   {% endfor %}
 </body>
 </html>
