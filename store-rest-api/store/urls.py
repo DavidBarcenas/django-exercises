@@ -9,6 +9,7 @@ urlpatterns = [
     path('comments/', include(('comments.urls', 'comments'), namespace='comments')),
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('shop/', include(('shop.urls', 'shop'), namespace='shop')),
 ]
 
 if settings.DEBUG:
