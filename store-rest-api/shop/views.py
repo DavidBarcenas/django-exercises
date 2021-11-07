@@ -15,9 +15,12 @@ def index(req):
         products = Product.objects.filter(title__contains=search)
     else:
         products = Product.objects.all()
+        search = ''
 
     if category:
-        products = products.objects.filter(category_id__contains=category)
+        products = products .filter(category_id=category)
+    else:
+        category = ''
 
     paginator = Paginator(products, 5)
     page_number = req.GET.get('page')
@@ -25,7 +28,9 @@ def index(req):
 
     return render(req, 'store/index.html', {
         'products': products_page,
-        'categories': categories
+        'categories': categories,
+        'search': search,
+        'category': int(category)
     })
 
 
