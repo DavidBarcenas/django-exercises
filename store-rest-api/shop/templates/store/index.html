@@ -9,8 +9,14 @@
 <body>
   <form>
     <input type="text" name="search">
+    <select name="category">
+      {% for c in categories %}
+        <option value="{{c.title}}">{{c.title}}</option>
+      {% endfor %}
+    </select>
     <button type="submit">Search</button>
   </form>
+
   {% for p in products %}
     {{ p }}
     <a href="{% url 'shop:detail' p.id %}">Go</a>
