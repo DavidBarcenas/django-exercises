@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.views import generic
 import paypalrestsdk
@@ -47,7 +47,9 @@ class DetailView(generic.DetailView):
     slug_url_kwarg = 'url_clean'
 
 
-def make_pay_paypal(req):
+def make_pay_paypal(req, pk):
+    product = get_object_or_404(Product, pk=pk)
+
     paypalrestsdk.configure({
         "mode": "sandbox",
         "client_id": env("PAYPAL_CLIENT_ID"),
@@ -59,18 +61,18 @@ def make_pay_paypal(req):
         "payer": {
             "payment_method": "paypal"},
         "redirect_urls": {
-            "return_url": "http://localhost:8000/shop/payment/success",
-            "cancel_url": "http://localhost:8000/shop/payment/cancelled"},
+            "return_url": "http://localhost:8000/shop/product/payment/success",
+            "cancel_url": "http://localhost:8000/shop/product/payment/cancelled"},
         "transactions": [{
             "item_list": {
                 "items": [{
                     "name": "item",
                     "sku": "item",
-                    "price": "5.00",
+                    "price": "12.00",
                     "currency": "USD",
                     "quantity": 1}]},
             "amount": {
-                "total": "5.00",
+                "total": "12.00",
                 "currency": "USD"},
             "description": "This is the payment transaction description."}]})
 
@@ -86,10 +88,12 @@ def make_pay_paypal(req):
             approval_url = str(link.href)
             print("Redirect for approval: %s" % (approval_url))
 
+    return render(req, 'payment/buy.html', {'product': product, 'approval_url': approval_url})
+
 
 def payment_success(req):
-    return render(req, 'shop/payment/success.html')
+    return render(req, 'payment/success.html')
 
 
 def payment_cancelled(req):
-    return render(req, 'shop/payment/cancelled.html')
+    return render(req, 'payment/cancelled.html')

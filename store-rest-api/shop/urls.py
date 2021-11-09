@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
 
-    path('product/payment', views.make_pay_paypal, name='payment'),
+    path('product/payment/<int:pk>', views.make_pay_paypal, name='payment'),
     path('product/payment/success', views.payment_success, name='success'),
     path('product/payment/cancelled', views.payment_cancelled, name='cancelled'),
 

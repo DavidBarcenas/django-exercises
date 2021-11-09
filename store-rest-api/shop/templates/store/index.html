@@ -26,6 +26,7 @@
     {{ p }}
     <a href="{% url 'shop:detail' p.id %}">Go</a>
     <a href="{% url 'shop:detail' p.url_clean %}">Go Slug</a>
+    <a href="{% url 'shop:payment' p.id %}">Buy</a>
   {% endfor %}
 </body>
 </html>
