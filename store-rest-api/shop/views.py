@@ -24,6 +24,7 @@ def index(req):
 
     if category:
         products = products .filter(category_id=category)
+        category = int(category)
     else:
         category = ''
 
@@ -35,7 +36,7 @@ def index(req):
         'products': products_page,
         'categories': categories,
         'search': search,
-        'category': int(category)
+        'category': category
     })
 
 
@@ -58,8 +59,8 @@ def make_pay_paypal(req):
         "payer": {
             "payment_method": "paypal"},
         "redirect_urls": {
-            "return_url": "http://localhost:3000/payment/execute",
-            "cancel_url": "http://localhost:3000/"},
+            "return_url": "http://localhost:8000/shop/payment/success",
+            "cancel_url": "http://localhost:8000/shop/payment/cancelled"},
         "transactions": [{
             "item_list": {
                 "items": [{
@@ -84,3 +85,11 @@ def make_pay_paypal(req):
             # https://github.com/paypal/rest-api-sdk-python/pull/58
             approval_url = str(link.href)
             print("Redirect for approval: %s" % (approval_url))
+
+
+def payment_success(req):
+    return render(req, 'shop/payment/success.html')
+
+
+def payment_cancelled(req):
+    return render(req, 'shop/payment/cancelled.html')
