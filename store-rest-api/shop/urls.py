@@ -5,7 +5,8 @@ urlpatterns = [
     path('', views.index, name='index'),
 
     path('product/payment/<int:pk>', views.make_pay_paypal, name='payment'),
-    path('product/payment/success', views.payment_success, name='success'),
+    path('product/payment/success/<int:pk>',
+         views.payment_success, name='success'),
     path('product/payment/cancelled', views.payment_cancelled, name='cancelled'),
 
     path('product/<int:pk>', views.DetailView.as_view(), name='detail'),

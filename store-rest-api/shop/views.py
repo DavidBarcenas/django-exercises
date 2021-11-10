@@ -7,6 +7,7 @@ import logging
 import environ
 
 from products.models import Category, Product
+from shop.models import Payment
 
 env = environ.Env()
 
@@ -63,7 +64,7 @@ def make_pay_paypal(req, pk):
         "payer": {
             "payment_method": "paypal"},
         "redirect_urls": {
-            "return_url": "http://localhost:8000/shop/product/payment/success",
+            "return_url": "http://localhost:8000/shop/product/payment/success/%s" % product.id,
             "cancel_url": "http://localhost:8000/shop/product/payment/cancelled"},
         "transactions": [{
             "item_list": {
@@ -94,7 +95,26 @@ def make_pay_paypal(req, pk):
 
 
 @login_required
-def payment_success(req):
+def payment_success(req, pk):
+    product = get_object_or_404(Product, pk=pk)
+
+    payment_id = req.GET.get('paymentId')
+    payer_id = req.GET.get('PayerID')
+
+    payment = paypalrestsdk.Payment.find(payment_id)
+
+    if payment.execute({'payer_id': payer_id}):
+        paymentModel = Payment(
+            payment_id=payment_id,
+            payer_id=payer_id,
+            price=product.price,
+            user_id=req.user,
+            product_id=product,
+        )
+        paymentModel.save()
+    else:
+        print()
+
     return render(req, 'payment/success.html')
 
 
