@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.views import generic
@@ -47,6 +48,7 @@ class DetailView(generic.DetailView):
     slug_url_kwarg = 'url_clean'
 
 
+@login_required
 def make_pay_paypal(req, pk):
     product = get_object_or_404(Product, pk=pk)
 
@@ -91,9 +93,11 @@ def make_pay_paypal(req, pk):
     return render(req, 'payment/buy.html', {'product': product, 'approval_url': approval_url})
 
 
+@login_required
 def payment_success(req):
     return render(req, 'payment/success.html')
 
 
+@login_required
 def payment_cancelled(req):
     return render(req, 'payment/cancelled.html')

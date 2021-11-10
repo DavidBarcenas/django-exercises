@@ -13,5 +13,14 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+    def __init__(self, *args, **kwargs):
+        super(Payment, self).__init__()
+
+        self.payment_id = args.payment_id
+        self.payer_id = args.payer_id
+        self.price = args.price
+        self.user = args.user_id
+        self.product = args.product_id
+
     def __str__(self) -> str:
         return self.price
