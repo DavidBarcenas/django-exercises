@@ -2,8 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.views import generic
-import paypalrestsdk
-import logging
+from paypalcheckoutsdk.core import PayPalHttpClient, SandboxEnvironment
+from paypalcheckoutsdk.orders import OrdersCreateRequest
+from paypalhttp import HttpError
 import environ
 
 from products.models import Category, Product
@@ -53,43 +54,47 @@ class DetailView(generic.DetailView):
 def make_pay_paypal(req, pk):
     product = get_object_or_404(Product, pk=pk)
 
-    paypalrestsdk.configure({
-        "mode": "sandbox",
-        "client_id": env("PAYPAL_CLIENT_ID"),
-        "client_secret": env("PAYPAL_CLIENT_SECRET")
+    client_id = env("PAYPAL_CLIENT_ID")
+    client_secret = env("PAYPAL_CLIENT_SECRET")
+    environment = SandboxEnvironment(
+        client_id=client_id, client_secret=client_secret)
+    client = PayPalHttpClient(environment)
+
+    order_request = OrdersCreateRequest()
+    order_request.prefer('return=representation')
+    order_request.request_body({
+        "intent": "CAPTURE",
+        "purchase_units": [
+            {
+                "amount": {
+                    "currency_code": "USD",
+                    "value": "100.00"
+                }
+            }
+        ],
+        "application_context": {
+            "return_url": "http://localhost:8000/shop/product/payment/success/%s" % product.id,
+            "cancel_url": "http://localhost:8000/shop/product/payment/cancelled"
+        }
     })
 
-    payment = paypalrestsdk.Payment({
-        "intent": "sale",
-        "payer": {
-            "payment_method": "paypal"},
-        "redirect_urls": {
-            "return_url": "http://localhost:8000/shop/product/payment/success/%s" % product.id,
-            "cancel_url": "http://localhost:8000/shop/product/payment/cancelled"},
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "name": "item",
-                    "sku": "item",
-                    "price": "12.00",
-                    "currency": "USD",
-                    "quantity": 1}]},
-            "amount": {
-                "total": "12.00",
-                "currency": "USD"},
-            "description": "This is the payment transaction description."}]})
+    try:
+        response = client.execute(order_request)
 
-    if payment.create():
-        print("Payment created successfully")
-    else:
-        print(payment.error)
+        print('Order With Complete Payload:')
+        print('Status Code:', response.status_code)
+        print('Status:', response.result.status)
+        print('Order ID:', response.result.id)
+        print('Intent:', response.result.intent)
+        print('Links:')
 
-    for link in payment.links:
-        if link.rel == "approval_url":
-            # Convert to str to avoid Google App Engine Unicode issue
-            # https://github.com/paypal/rest-api-sdk-python/pull/58
-            approval_url = str(link.href)
-            print("Redirect for approval: %s" % (approval_url))
+        if response.result.status == "CREATED":
+            approval_url = str(response.result.links[1].href)
+
+    except IOError as ioe:
+        print(ioe)
+        if isinstance(ioe, HttpError):
+            print(ioe.status_code)
 
     return render(req, 'payment/buy.html', {'product': product, 'approval_url': approval_url})
 
