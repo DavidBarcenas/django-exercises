@@ -103,17 +103,20 @@ def payment_success(req, pk):
 
     payment = paypalrestsdk.Payment.find(payment_id)
 
-    if payment.execute({'payer_id': payer_id}):
-        paymentModel = Payment(
-            payment_id=payment_id,
-            payer_id=payer_id,
-            price=product.price,
-            user_id=req.user,
-            product_id=product,
-        )
-        paymentModel.save()
-    else:
-        print()
+    try:
+        if payment.execute({'payer_id': payer_id}):
+            paymentModel = Payment(
+                payment_id=payment_id,
+                payer_id=payer_id,
+                price=product.price,
+                user_id=req.user,
+                product_id=product,
+            )
+            paymentModel.save()
+        else:
+            print()
+    except paypalrestsdk.exceptions.ResourceNotFound:
+        print('An ocurred error')
 
     return render(req, 'payment/success.html')
 
