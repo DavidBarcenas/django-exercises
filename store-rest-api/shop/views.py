@@ -136,7 +136,7 @@ def payment_cancelled(req):
 
 @login_required
 def purchased(req):
-    return render(req, 'payment/purchased.html', {'payments': Payment.objects.all()})
+    return render(req, 'payment/purchased.html', {'payments': Payment.objects.select_related('product')})
 
 
 @login_required
