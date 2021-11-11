@@ -16,6 +16,7 @@
           <th>Payment ID</th>
           <th>Price</th>
           <th>Product</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,9 @@
             <td>{{p.payment_id}}</td>
             <td>{{p.price}}</td>
             <td>{{p.product.title}}</td>
+            <td>
+              <a href="{% url 'shop:detail_pay' p.id%}">Detail</a>
+            </td>
           </tr>
         {% endfor %}
       </tbody>

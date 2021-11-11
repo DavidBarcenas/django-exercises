@@ -20,9 +20,9 @@ def index(req):
     category = req.GET.get('category')
 
     if search:
-        products = Product.objects.filter(title__contains=search)
+        products = Product.objects.filter(type=1, title__contains=search)
     else:
-        products = Product.objects.all()
+        products = Product.objects.filter(type=1)
         search = ''
 
     if category:
@@ -136,7 +136,7 @@ def payment_cancelled(req):
 
 @login_required
 def purchased(req):
-    return render(req, 'payment/purchased.html', {'payments': Payment.objects.select_related('product')})
+    return render(req, 'payment/purchased.html', {'payments': Payment.objects.select_related('product').filter(user=req.user)})
 
 
 @login_required
