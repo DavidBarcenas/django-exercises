@@ -8,6 +8,7 @@ urlpatterns = [
     path('product/payment/success/<int:pk>',
          views.payment_success, name='success'),
     path('product/payment/cancelled', views.payment_cancelled, name='cancelled'),
+    path('product/payed/detail/<int:pk>', views.detail_pay, name='detail_pay'),
 
     path('product/<int:pk>', views.DetailView.as_view(), name='detail'),
     path('product/<slug:url_clean>', views.DetailView.as_view(), name='detail'),

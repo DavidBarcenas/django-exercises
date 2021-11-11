@@ -13,14 +13,18 @@ class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
 
-    def __init__(self, *args, **kwargs):
-        super(Payment, self).__init__()
+    @classmethod
+    def create(cls, payment_id, payer_id, price, user_id, product_id):
 
-        self.payment_id = kwargs['payment_id']
-        self.payer_id = kwargs['payer_id']
-        self.price = kwargs['price']
-        self.user = kwargs['user_id']
-        self.product = kwargs['product_id']
+        payment = cls(
+            payment_id=payment_id,
+            payer_id=payer_id,
+            price=price,
+            user=user_id,
+            product=product_id
+        )
+
+        return payment
 
     def __str__(self) -> str:
         return self.price

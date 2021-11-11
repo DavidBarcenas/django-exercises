@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, reverse, render
 from django.core.paginator import Paginator
 from django.views import generic
 from paypalcheckoutsdk.core import PayPalHttpClient, SandboxEnvironment
@@ -109,16 +109,19 @@ def payment_success(req, pk):
     try:
         response = client.execute(request)
 
-        paymentModel = Payment(
-            payment_id=order_id,
-            payer_id=payer_id,
-            price=product.price,
-            user_id=req.user,
-            product_id=product,
-        )
-        paymentModel.save()
+        if response:
+            paymentModel = Payment.create(
+                payment_id=order_id,
+                payer_id=payer_id,
+                price=product.price,
+                user_id=req.user,
+                product_id=product,
+            )
 
-        order = response.result.id
+            paymentModel.save()
+
+            return redirect(reverse('shop:detail_pay', args=[paymentModel.id]))
+
     except IOError as ioe:
         if isinstance(ioe, HttpError):
             print(ioe.status_code)
@@ -129,3 +132,8 @@ def payment_success(req, pk):
 @login_required
 def payment_cancelled(req):
     return render(req, 'payment/cancelled.html')
+
+
+def detail_pay(req, pk):
+    payment = get_object_or_404(Payment, pk=pk)
+    return render(req, 'payment/detail.html', {'payment': payment})
