@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from django.views import generic
 from paypalcheckoutsdk.core import PayPalHttpClient, SandboxEnvironment
-from paypalcheckoutsdk.orders import OrdersCreateRequest
+from paypalcheckoutsdk.orders import OrdersCreateRequest, OrdersCaptureRequest
 from paypalhttp import HttpError
 import environ
 
@@ -81,16 +81,8 @@ def make_pay_paypal(req, pk):
     try:
         response = client.execute(order_request)
 
-        print('Order With Complete Payload:')
-        print('Status Code:', response.status_code)
-        print('Status:', response.result.status)
-        print('Order ID:', response.result.id)
-        print('Intent:', response.result.intent)
-        print('Links:')
-
         if response.result.status == "CREATED":
             approval_url = str(response.result.links[1].href)
-
     except IOError as ioe:
         print(ioe)
         if isinstance(ioe, HttpError):
@@ -103,25 +95,33 @@ def make_pay_paypal(req, pk):
 def payment_success(req, pk):
     product = get_object_or_404(Product, pk=pk)
 
-    payment_id = req.GET.get('paymentId')
+    client_id = env("PAYPAL_CLIENT_ID")
+    client_secret = env("PAYPAL_CLIENT_SECRET")
+    environment = SandboxEnvironment(
+        client_id=client_id, client_secret=client_secret)
+    client = PayPalHttpClient(environment)
+
+    order_id = req.GET.get('token')
     payer_id = req.GET.get('PayerID')
 
-    payment = paypalrestsdk.Payment.find(payment_id)
+    request = OrdersCaptureRequest(order_id)
 
     try:
-        if payment.execute({'payer_id': payer_id}):
-            paymentModel = Payment(
-                payment_id=payment_id,
-                payer_id=payer_id,
-                price=product.price,
-                user_id=req.user,
-                product_id=product,
-            )
-            paymentModel.save()
-        else:
-            print()
-    except paypalrestsdk.exceptions.ResourceNotFound:
-        print('An ocurred error')
+        response = client.execute(request)
+
+        paymentModel = Payment(
+            payment_id=order_id,
+            payer_id=payer_id,
+            price=product.price,
+            user_id=req.user,
+            product_id=product,
+        )
+        paymentModel.save()
+
+        order = response.result.id
+    except IOError as ioe:
+        if isinstance(ioe, HttpError):
+            print(ioe.status_code)
 
     return render(req, 'payment/success.html')
 

@@ -16,11 +16,11 @@ class Payment(models.Model):
     def __init__(self, *args, **kwargs):
         super(Payment, self).__init__()
 
-        self.payment_id = args.payment_id
-        self.payer_id = args.payer_id
-        self.price = args.price
-        self.user = args.user_id
-        self.product = args.product_id
+        self.payment_id = kwargs['payment_id']
+        self.payer_id = kwargs['payer_id']
+        self.price = kwargs['price']
+        self.user = kwargs['user_id']
+        self.product = kwargs['product_id']
 
     def __str__(self) -> str:
         return self.price
