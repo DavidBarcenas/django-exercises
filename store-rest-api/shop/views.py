@@ -134,6 +134,12 @@ def payment_cancelled(req):
     return render(req, 'payment/cancelled.html')
 
 
+@login_required
+def purchased(req):
+    return render(req, 'payment/purchased.html', {'payments': Payment.objects.all()})
+
+
+@login_required
 def detail_pay(req, pk):
     payment = get_object_or_404(Payment, pk=pk)
     return render(req, 'payment/detail.html', {'payment': payment})
