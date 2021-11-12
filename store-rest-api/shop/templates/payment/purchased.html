@@ -1,37 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-    <h1>Purchased</h1>
+{% extends "store/base.html" %}
 
-    <table>
+{% block main %}
+  <div class="p-3 mb-2 bg-success text-white text-center">
+    <h1 class="display-5">Purchased</h1>
+  </div>
+
+  <div class="container mt-5">
+    <table class="table">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Payment ID</th>
-          <th>Price</th>
-          <th>Product</th>
-          <th></th>
+          <th scope="col">ID</th>
+          <th scope="col">Payment ID</th>
+          <th scope="col">Price</th>
+          <th scope="col">Product</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         {% for p in payments %}
-          <tr>
+          <tr scope="row">
             <td>{{p.id}}</td>
             <td>{{p.payment_id}}</td>
             <td>{{p.price}}</td>
             <td>{{p.product.title}}</td>
             <td>
-              <a href="{% url 'shop:detail_pay' p.id%}">Detail</a>
+              <a href="{% url 'shop:detail_pay' p.id%}" class="btn btn-warning btn-sm">Detail</a>
             </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
-</body>
-</html>
+  </div>
+{% endblock %}
