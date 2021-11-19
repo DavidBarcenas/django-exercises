@@ -1,0 +1,42 @@
+{% extends "store/base.html" %}
+
+{% block main %}
+  <div class="hero mb-5">
+    <div class="container">
+      <form class="form">
+        <div class="input-group">
+          <input type="text" name="search" value="{{ search }}" class="form-control mr-2">
+          <select name="category" class="form-control">
+            {% for c in categories %}
+              <option 
+                {% if category_id == c.id %} selected {% endif %} 
+                value="{{c.id}}">
+                  {{c.title}}
+              </option>
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-warning">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <table class="table table-striped">
+      <tbody>
+        {% for p in products %}
+          <tr class="table-row">
+            <td>{{ p.title }}</td>
+            <td>{{ p.description }}</td>
+            <td>{{ p.price }}</td>
+            <td class="actions">
+              {% comment %} <a class="btn btn-small" href="{% url 'shop:detail' p.id %}">Go</a> {% endcomment %}
+              <a class="btn btn-primary btn-sm" href="{% url 'shop:detail' p.url_clean %}">View</a>
+              <a class="btn btn-success btn-sm" href="{% url 'shop:payment' p.id %}">Buy</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
